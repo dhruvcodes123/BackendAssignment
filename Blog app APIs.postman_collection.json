@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "65bc51ea-faa2-4d10-a7cb-15098b5d9fb8",
+		"name": "Blog app APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22262885",
+		"_collection_link": "https://crimson-sunset-672387.postman.co/workspace/Drf-test~34573caf-130c-4c43-a69f-ec10741c56d9/collection/22262885-65bc51ea-faa2-4d10-a7cb-15098b5d9fb8?action=share&source=collection_link&creator=22262885"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin_test1\",\n    \"first_name\":\"Admin\",\n    \"last_name\":\"Test\",\n    \"password\":\"admin@123\",\n    \"email\":\"admin1@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/register-user/"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"console.log(jsonData)",
+									"pm.environment.set('ACCESS_TOKEN', 'Bearer '+jsonData.token.access)",
+									"pm.environment.set('REFRESH_TOKEN',+jsonData.token.refresh)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acc",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admin1@gmail.com\",\n    \"password\":\"admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/login/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blog",
+			"item": [
+				{
+					"name": "Create Post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ACCESS_TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"my new blog\",\n    \"content_description\":\"This is my first BLog very excited\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/posts/"
+					},
+					"response": []
+				},
+				{
+					"name": "View Posts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"my new blog\",\n    \"content_description\":\"This is my first BLog very excited\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/posts/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
